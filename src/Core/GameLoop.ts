@@ -2,7 +2,7 @@ type Game = new () => GameInterface;
 
 interface GameInterface {
   start(): void;
-  update(): void;
+  update(currentTime: number): void;
 }
 
 export class GameLoop {
@@ -17,9 +17,9 @@ export class GameLoop {
     this.loop();
   }
 
-  private loop() {
-    this.game.update();
+  private loop(currentTime: number = 0) {
+    this.game.update(currentTime);
 
-    requestAnimationFrame(() => this.loop());
+    requestAnimationFrame((e) => this.loop(e));
   }
 }

@@ -1,42 +1,45 @@
-import {
-  PerspectiveCamera, Scene, WebGLRenderer,
-} from 'three';
+import { GameBuilder } from '../../Core';
 
-import { Lines } from './GameObjects';
+import { Environment, Bird, Roof } from './GameObjects';
 
-export class Game {
-  private width: number;
+export class Game extends GameBuilder {
+  private spawn = 0;
 
-  private height: number;
+  public async start() {
+    const environment = new Environment();
+    const bird = new Bird();
+    const roof = new Roof();
 
-  private scene: Scene;
+    this.gameObjects = [
+      environment,
+      bird,
+      roof,
+    ];
 
-  private renderer: WebGLRenderer;
+    this.camera.position.set(-1200, 200, 400);
+    this.camera.lookAt(bird.getGameObject().position);
 
-  private camera: PerspectiveCamera;
-
-  constructor() {
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
-
-    this.scene = new Scene();
-    this.renderer = new WebGLRenderer();
-    this.camera = new PerspectiveCamera(75, this.width / this.height, 0.1, 1000);
+    this.gameObjects.forEach((gameObject) => {
+      const go = gameObject.getGameObject();
+      this.scene.add(go);
+    });
   }
 
-  public start() {
-    document.body.appendChild(this.renderer.domElement);
+  public update(currentTime: number) {
+    this.gameObjects.forEach((gameObject) => {
+      if (gameObject?.update) {
+        gameObject.update();
+      }
+    });
 
-    this.renderer.setSize(this.width, this.height);
-    this.camera.position.set(0, 0, 100);
-    this.camera.lookAt(0, 0, 0);
+    if (this.spawn + 2000 < currentTime) {
+      const roof = new Roof();
+      roof.getGameObject().position.set(0, Math.round((Math.random() * 1000) - 500), 1400);
+      this.gameObjects.push(roof);
+      this.scene.add(roof.getGameObject());
+      this.spawn = currentTime;
+    }
 
-    const lines = new Lines().create();
-
-    this.scene.add(lines);
-  }
-
-  public update() {
     this.renderer.render(this.scene, this.camera);
   }
 }

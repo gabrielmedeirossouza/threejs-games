@@ -1,5 +1,5 @@
-import * as Games from './Games';
 import { GameLoop } from './Core';
+import * as Games from './Games';
 
 const { FlappyBirdGame } = Games;
 
