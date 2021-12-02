@@ -1,2 +1,3 @@
-export { GameLoop } from './GameLoop';
-export { GameBuilder } from './GameBuilder';
+export { GameEngine } from './GameEngine';
+export { GameObject } from './GameObject';
+export { GameScript } from './GameScript';

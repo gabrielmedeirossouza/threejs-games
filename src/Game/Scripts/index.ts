@@ -1,3 +1,3 @@
 export { DestroyOutsideRange } from './DestroyOutsideRange';
-export { MoveForward } from './MoveForward';
 export { Jump } from './Jump';
+export { TurnAroundBody } from './TurnAroundBody';

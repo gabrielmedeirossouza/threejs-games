@@ -1,7 +1,5 @@
-import { GameLoop } from './Core';
-import * as Games from './Games';
+import { Game } from './Game';
 
-const { FlappyBirdGame } = Games;
+const game = new Game({});
 
-const gameLoop = new GameLoop(FlappyBirdGame);
-gameLoop.start();
+game.start();
